@@ -4,7 +4,7 @@
  *  Created on: 2018年3月31日
  *      Author: Administrator
  */
-/*
+
 #include "stack.h"
 #include <cassert>
 #include <iostream>
@@ -44,4 +44,4 @@ int StackSeq::GetNum() const
 	assert(!AtEnd());
 	return _stack._arr[_iCur];		// 友元，可以访问_arr
 }
-*/
+

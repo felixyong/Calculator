@@ -4,33 +4,23 @@
  *  Created on: 2018年4月1日
  *      Author: Administrator
  */
-/*
+
 #ifndef CALC_H_
 #define CALC_H_
 
-
+#include "input.h"
+#include "stack.h"
 
 class Calculator
 {
 public:
-	Claculator():_done(false)
-	{
-		std::cout << "Claculator created\n";
-	}
-	bool Execute(Input & input)
-	{
-		std::cout << "Calculator::Execute\n";
-		return !_done;
-	}
-	Istack const & GetStack()	// 常量
-	{
-		_done = true;
-		return _stack;
-	}
+	bool Execute(Input const & input);
+	// 让stack可以访问
+	Istack const & GetStack() const {return _stack;}
 private:
+	int Calculate(int n1, int n2, int token) const;
 	Istack _stack;
-	bool _done;
 };
 
 #endif /* CALC_H_ */
-*/
+

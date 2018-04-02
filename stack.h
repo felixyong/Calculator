@@ -18,6 +18,8 @@ public:
 	Istack():_top(0){}
 	void Push(int i);
 	int Pop();
+	bool IsFull() const {return _top >= maxStack;}
+	bool IsEmpty() const {return _top == 0;}
 private:
 	int _arr [maxStack];
 	int _top;

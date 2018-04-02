@@ -4,60 +4,81 @@
  *  Created on: 2018年4月1日
  *      Author: Administrator
  */
+#include "calc.h"
+#include "input.h"
 #include <iostream>
-//#include "calc.h"
-//#include "Input.h"
-//#include "stack.h"
+#include <cassert>
 
-class Istack{};
 
-class StackSeq
+bool Calculator::Execute(Input const & input)
 {
-public:
-	StackSeq(Istack const & stack)
-	:_stack(stack), _done(false)
-	{
-		std::cout << "Stack sequence created\n";
-	}
-	bool AtEnd() const {return _done;}
-	void Advance() {_done = true;}
-	int GetNum() const {return 13;}
-private:
-	Istack const & _stack;
-	bool _done;
-};
+	int token = input.Token();
+	bool status  = false;		// 假定失败
 
-class Input
+	if(token == tokError)
+	{
+		std::cout << "Unknown token\n";
+	}
+	else if(token == tokNumber)
+	{
+		if(_stack.IsFull())
+		{
+			std::cout << "Stack is full\n";
+		}
+		else
+		{
+			_stack.Push(input.Number());
+			status = true;		// 成功
+		}
+	}
+	else
+	{
+		// 契约：Input不能产生任何其他符号
+		assert(token == '+'|| token == '-' || token == '*' || token == '/');
+		if(_stack.IsEmpty())
+		{
+			std::cout << "Stack is empty\n";
+		}
+		else
+		{
+			int num2 = _stack.Pop();
+			int num1;
+			// 特例：仅当堆栈中有一个数，对两个操作数使用这个数
+			if(_stack.IsEmpty())
+				num1 = num2;
+			else
+				num1 = _stack.Pop();
+
+			_stack.Push(Calculate(num1, num2, token));
+			status = true;
+		}
+	}
+	return status;
+}
+
+int Calculator::Calculate(int num1,
+		int num2, int token) const
 {
-public:
-	Input()
-	{
-		std::cout << "Input created\n";
-	}
-};
+	int result;
 
-class Calculator
-{
-public:
-	Calculator():_done(false)
+	if(token == '+')
+		result = num1 + num2;
+	else if(token == '-')
+		result = num1 - num2;
+	else if(token == '*')
+		result  = num1 * num2;
+	else if(token == '/')
 	{
-		std::cout << "Calculator created\n";
+		if(num2 == 0)
+		{
+			std::cout << "Division by zero\n";
+			result = 0;
+		}
+		else
+			result  = num1 / num2;		// 整数除
 	}
-	bool Execute(Input & input)
-	{
-		std::cout << "Calculator::Execute\n";
-		return !_done;
-	}
-	Istack const & GetStack()	// 常量
-	{
-		_done = true;
-		return _stack;
-	}
-private:
-	Istack _stack;
-	bool _done;
-};
-
+	return result;
+}
 
 int main()
 {
