@@ -5,7 +5,6 @@
  *      Author: Administrator
  */
 #include "calc.h"
-#include "input.h"
 #include <iostream>
 #include <cassert>
 
