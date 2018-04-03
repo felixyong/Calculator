@@ -31,7 +31,7 @@ void Istack::Push(int i)
 
 void Istack::Grow()
 {
-	std::cout <<"Doubling stack from "
+	std::cout << "Doubling stack from "
 			<< _capacity << ".\n";
 	// 分配新数组
 	int * arrNew = new int [2 * _capacity];
@@ -41,13 +41,30 @@ void Istack::Grow()
 	_capacity = 2 * _capacity;
 	delete [] _arr;
 	_arr = arrNew;
-
 }
+
 int Istack::Pop()
 {
 	assert(_top > 0);
 	--_top;
+	if(_top == (_capacity / 2))
+		Reduce();
 	return _arr[_top];
+}
+
+void Istack::Reduce()
+{
+	std::cout << "Reducing stack from "
+			<< _capacity << ".\n";
+	// 分配新数组
+	int * arrNew = new int [_capacity / 2];
+	// 复制所有数据项
+	for(int i = 0; i < _capacity / 2; ++i)
+		arrNew[i] = _arr[i];
+	_capacity = _capacity / 2;
+	delete [] _arr;
+	_arr = arrNew;
+
 }
 
 bool Istack::IsEmpty() const

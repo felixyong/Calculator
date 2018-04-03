@@ -22,6 +22,7 @@ public:
 	bool IsEmpty() const;
 private:
 	void Grow();
+	void Reduce();
 	int *_arr;
 	int _capacity;		// 数组大小
 	int _top;
