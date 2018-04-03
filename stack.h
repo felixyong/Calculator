@@ -8,20 +8,22 @@
 #ifndef STACK_H_
 #define STACK_H_
 
-const int maxStack = 100;
+const int initStack = 1;
 
 class Istack
 {
 	// 让StackSeq可以访问IStack的私有数据成员
 	friend class StackSeq;
 public:
-	Istack():_top(0){}
+	Istack();
+	~Istack();
 	void Push(int i);
 	int Pop();
-	bool IsFull() const {return _top >= maxStack;}
-	bool IsEmpty() const {return _top == 0;}
+	bool IsEmpty() const;
 private:
-	int _arr [maxStack];
+	void Grow();
+	int *_arr;
+	int _capacity;		// 数组大小
 	int _top;
 };
 

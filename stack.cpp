@@ -9,19 +9,51 @@
 #include <cassert>
 #include <iostream>
 
+Istack::Istack()
+: _top(0), _capacity(initStack)
+{
+	_arr = new int [initStack];		// 分配内存
+}
+
+Istack::~Istack()
+{
+	delete []_arr;		// 释放内存
+}
 //通过NDEBUG=1编译去掉断言
 void Istack::Push(int i)
 {
-	assert(_top < maxStack);
+	assert(_top <= _capacity);
+	if(_top == _capacity)
+		Grow();
 	_arr[_top] = i;
 	++_top;
 }
 
+void Istack::Grow()
+{
+	std::cout <<"Doubling stack from "
+			<< _capacity << ".\n";
+	// 分配新数组
+	int * arrNew = new int [2 * _capacity];
+	// 复制所有数据项
+	for(int i = 0; i < _capacity; ++i)
+		arrNew[i] = _arr[i];
+	_capacity = 2 * _capacity;
+	delete [] _arr;
+	_arr = arrNew;
+
+}
 int Istack::Pop()
 {
 	assert(_top > 0);
 	--_top;
 	return _arr[_top];
+}
+
+bool Istack::IsEmpty() const
+{
+	assert(_top >= 0);
+	return _top == 0;
 }
 
 StackSeq::StackSeq(Istack const & stack)

@@ -8,7 +8,6 @@
 #include <iostream>
 #include <cassert>
 
-
 bool Calculator::Execute(Input const & input)
 {
 	int token = input.Token();
@@ -20,15 +19,9 @@ bool Calculator::Execute(Input const & input)
 	}
 	else if(token == tokNumber)
 	{
-		if(_stack.IsFull())
-		{
-			std::cout << "Stack is full\n";
-		}
-		else
-		{
-			_stack.Push(input.Number());
-			status = true;		// 成功
-		}
+		_stack.Push(input.Number());
+		status = true;		// 成功
+
 	}
 	else
 	{
