@@ -47,9 +47,10 @@ int Istack::Pop()
 {
 	assert(_top > 0);
 	--_top;
-	if(_top == (_capacity / 2))
+	int top_temp = _arr[_top];
+	if((_top == (_capacity / 2)) && (_capacity > 1))
 		Reduce();
-	return _arr[_top];
+	return top_temp;
 }
 
 void Istack::Reduce()
