@@ -5,6 +5,7 @@
  *      Author: Administrator
  */
 #include "calc.h"
+#include "list.h"
 #include <iostream>
 #include <cassert>
 
@@ -74,6 +75,20 @@ int Calculator::Calculate(int num1,
 
 int main()
 {
+	// test for List
+	List list;
+	list.Add(1);
+	list.Add(2);
+	std::cout << "List contents:\n";
+	for(Link const * pLink = list.GetHead();
+			pLink != 0;
+			pLink = pLink->Next())
+	{
+		std::cout << pLink->Id() << ", ";
+	}
+	std::cout << std::endl;
+
+	// calculator
 	Calculator TheCalculator;
 	bool status;
 	do
@@ -94,5 +109,5 @@ int main()
 
 	}while(status);
 
-}
 
+}
