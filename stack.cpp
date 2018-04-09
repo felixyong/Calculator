@@ -65,7 +65,13 @@ void Istack::Reduce()
 	_capacity = _capacity / 2;
 	delete [] _arr;
 	_arr = arrNew;
+}
 
+int Istack::Top() const
+{
+	// 不对空数组使用
+	assert(_top > 0);
+	return _arr[_top - 1];
 }
 
 bool Istack::IsEmpty() const

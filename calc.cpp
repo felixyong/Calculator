@@ -6,6 +6,7 @@
  */
 #include "calc.h"
 #include "list.h"
+#include "strTab.h"
 #include <iostream>
 #include <cassert>
 
@@ -75,7 +76,7 @@ int Calculator::Calculate(int num1,
 
 int main()
 {
-	// test for List
+	// Example for List
 	List list;
 	list.Add(1);
 	list.Add(2);
@@ -87,6 +88,28 @@ int main()
 		std::cout << pLink->Id() << ", ";
 	}
 	std::cout << std::endl;
+
+	// Example for string table
+	StringTable strTable;
+	strTable.ForceAdd("One");
+	strTable.ForceAdd("Two");
+	strTable.ForceAdd("Three");
+
+	int id = strTable.Find("One");
+	std::cout << "One at " << id << std::endl;
+	id = strTable.Find("Two");
+	std::cout << "Two at " << id << std::endl;
+	id = strTable.Find("Three");
+	std::cout << "Three at " << id << std::endl;
+	id = strTable.Find("Minus one");
+	std::cout << "Minus one at " << id << std::endl;
+
+	std::cout << "String 0 is "
+			<< strTable.GetString(0) << std::endl;
+	std::cout << "String 1 is "
+			<< strTable.GetString(1) << std::endl;
+	std::cout << "String 2 is "
+			<< strTable.GetString(2) << std::endl;
 
 	// calculator
 	Calculator TheCalculator;

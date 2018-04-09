@@ -19,6 +19,7 @@ public:
 	~Istack();
 	void Push(int i);
 	int Pop();
+	int Top() const;
 	bool IsEmpty() const;
 private:
 	void Grow();
