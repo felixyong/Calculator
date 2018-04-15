@@ -7,6 +7,7 @@
 #include "calc.h"
 #include "list.h"
 #include "strTab.h"
+#include "tree.h"
 #include <iostream>
 #include <cassert>
 
@@ -110,6 +111,18 @@ int main()
 			<< strTable.GetString(1) << std::endl;
 	std::cout << "String 2 is "
 			<< strTable.GetString(2) << std::endl;
+
+	// example of tree
+	// (20.0 + (-10.0)) * 0.1
+	Node * pNode1 = new NumNode(20.0);
+	Node * pNode2 = new NumNode(-10.0);
+	Node * pNode3 = new AddNode(pNode1, pNode2);
+	Node * pNode4 = new NumNode(0.1);
+	Node * pNode5 = new MultNode(pNode3, pNode4);
+	std::cout << "Calculating the tree\n";
+	double x = pNode5->Calc();
+	std::cout << "Result: " << x << std::endl;
+	delete pNode5;
 
 	// calculator
 	Calculator TheCalculator;
