@@ -75,6 +75,7 @@ int Calculator::Calculate(int num1,
 	return result;
 }
 
+/*
 int main()
 {
 	// Example for List
@@ -147,3 +148,4 @@ int main()
 
 
 }
+*/
