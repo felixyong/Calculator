@@ -11,6 +11,9 @@
 #include <iostream>
 #include <cassert>
 #include <cstdlib>
+#include <string.h>
+
+const int maxSymLen = 10;
 
 enum Status
 {
@@ -25,7 +28,13 @@ enum EToken
 	tError,
 	tNumber,
 	tPlus,
-	tMult
+	tMult,
+	tMinus,
+	tDivide,
+	tLParen,
+	tRParen,
+	tAssign,
+	tIdent
 };
 
 class Scanner
@@ -39,12 +48,15 @@ public:
 		assert(_token == tNumber);
 		return _number;
 	}
+	void GetSymbolName(char * strOut, int & len);
 private:
 	char const * const _buf;
 	void EatWhite();
 	int _iLook;
 	EToken _token;
 	double _number;
+	int _lenSymbol;
+	int _iSymbol;
 };
 
 Scanner::Scanner(char const * buf)
@@ -74,20 +86,71 @@ void Scanner::Accept()
 		_token = tMult;
 		++_iLook;
 		break;
+	case '-':
+		_token = tMinus;
+		++_iLook;
+		break;
+	case '/':
+		_token = tDivide;
+		++_iLook;
+		break;
+	case '(':
+		_token = tLParen;
+		++_iLook;
+		break;
+	case ')':
+		_token = tRParen;
+		++_iLook;
+		break;
 	case '0': case '1': case '2': case '3': case '4':
 	case '5': case '6': case '7': case '8': case '9':
+	case '.':
+	{
 		_token = tNumber;
+		/*
 		_number = std::atoi(&_buf[_iLook]);
 		while(std::isdigit(_buf[_iLook]))
 			++_iLook;
+		*/
+		char *p;
+		_number = std::strtod(&_buf[_iLook], &p);
+		_iLook = p - _buf;	// 指针 减
 		break;
+	}
 	case '\0': // 输入结尾
 		_token = tEnd;
 		break;
 	default:
-		_token = tError;
+		if(std::isalpha(_buf[_iLook])
+			|| _buf[_iLook] == '_')
+		{
+			_token = tIdent;
+			_iSymbol = _iLook;
+
+			int cLook;	// 在do循环中初始化
+			do{
+				++_iLook;
+				cLook = _buf[_iLook];
+			} while(std::isalnum(cLook) || cLook == '_');
+
+			_lenSymbol = _iLook - _iSymbol;
+			if(_lenSymbol >= maxSymLen)
+				_lenSymbol = maxSymLen - 1;
+		}
+		else
+			_token = tError;
 		break;
 	}
+
+}
+
+void Scanner::GetSymbolName(char * strOut, int & len)
+{
+	assert(len >= maxSymLen);
+	assert(_lenSymbol <= maxSymLen);
+	strncpy(strOut, &_buf[_iSymbol], _lenSymbol);
+	strOut[_lenSymbol] = '\0';
+	len = _lenSymbol;
 
 }
 
@@ -137,9 +200,24 @@ Status Parser::Parse()
 		case tPlus:
 			std::cout << "Plus\n";
 			break;
+		case tMinus:
+			std::cout << "Minus\n";
+			break;
+		case tDivide:
+			std::cout << "Divide\n";
+			break;
+		case tLParen:
+			std::cout << "Left parenthesis\n";
+			break;
+		case tRParen:
+			std::cout << "Right parenthesis\n";
+			break;
 		case tNumber:
 			std::cout << "Number: " << _scanner.Number()
 					<< std::endl;
+			break;
+		case tIdent:
+			std::cout << "Identifier: \n";
 			break;
 		case tEnd:
 			std::cout << "End\n";
