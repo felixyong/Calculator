@@ -5,7 +5,10 @@
  *      Author: Administrator
  */
 
-#include "calc_pro.h"
+#include <iostream>
+#include "symTab.h"
+#include "scanner.h"
+#include "parser.h"
 
 const int maxBuf = 100;
 
