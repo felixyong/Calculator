@@ -5,12 +5,13 @@
  *      Author: CNFELUO1
  */
 #include "strTab.h"
+
 #include <cassert>
 #include <iostream>
 
 // Find the list in the hash table that may contain
 // the id of the string we are looking for
-
+/*
 List const & HTable::Find(char const * str) const
 {
 	int i = hash(str);
@@ -32,10 +33,12 @@ int HTable::hash(char const * str) const
 		h = (h << 4) + str[i];
 	return h % sizeHTable;		// remainder
 }
+*/
 
 // String table
 StringTable::StringTable()
-: _curId(0)
+: _curId(0),
+  _htab(maxBufSize)
 {
 
 }

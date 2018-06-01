@@ -11,12 +11,13 @@
 #include "parser.h"
 
 const int maxBuf = 100;
+const int maxSymbols = 40;
 
 int main()
 {
 	char buf[maxBuf];
 	Status status;
-	SymbolTable symTab;
+	SymbolTable symTab(maxSymbols);
 	do
 	{
 		std::cout << "> ";		// ÌבÊ¾

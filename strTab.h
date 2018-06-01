@@ -9,6 +9,7 @@
 #define STRTAB_H_
 
 #include "list.h"
+#include "hTab.h"
 #include <cstring>
 
 const int maxBufSize = 500;
@@ -44,6 +45,7 @@ private:
 	int _curOffset;
 };
 
+/*
 const int sizeHTable = 127;
 
 // Hash table of strings
@@ -59,6 +61,7 @@ private:
 	int hash(char const * str) const;
 	List _aList[sizeHTable];		// an array of (short) lists
 };
+*/
 
 const int idNotFound = -1;
 const int maxStrings = 100;
