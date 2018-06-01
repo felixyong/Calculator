@@ -217,8 +217,14 @@ Status Parser::Parse()
 					<< std::endl;
 			break;
 		case tIdent:
-			std::cout << "Identifier: \n";
-			break;
+			{
+				std::cout << "Identifier: ";
+				char buf [20];
+				int len = 20;
+				_scanner.GetSymbolName(buf, len);
+				std::cout << "Symbol ( " << buf << " )" << std::endl;
+			}
+		break;
 		case tEnd:
 			std::cout << "End\n";
 			return stQuit;
