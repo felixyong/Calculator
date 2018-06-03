@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include "parser.h"
+#include "scanner.h"
+#include "symTab.h"
 
 Parser::Parser(Scanner & scanner, SymbolTable & symTab)
 	: _scanner(scanner), _symTab(symTab)

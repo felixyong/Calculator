@@ -8,10 +8,7 @@
 #ifndef STRBUF_H_
 #define STRBUF_H_
 
-#include "HTab.h"
 #include <cstring>
-
-const int maxBufsize = 500;
 
 class StringBuffer
 {

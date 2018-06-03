@@ -8,8 +8,8 @@
 #ifndef PARSER_H_
 #define PARSER_H_
 
-#include "scanner.h"
-#include "symTab.h"
+class Scanner;
+class SymbolTable;
 
 enum Status
 {
