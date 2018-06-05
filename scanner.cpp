@@ -10,6 +10,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "scanner.h"
+#include <cstdlib>
 
 Scanner::Scanner(char const * buf)
 	: _buf(buf), _iLook(0)
@@ -65,7 +66,7 @@ void Scanner::Accept()
 			++_iLook;
 		*/
 		char *p;
-		_number = strtod(&_buf[_iLook], &p);
+		_number = std::strtod(&_buf[_iLook], &p);
 		_iLook = p - _buf;	// ÷∏’Î ºı
 		break;
 	}

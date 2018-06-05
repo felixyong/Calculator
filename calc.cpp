@@ -149,3 +149,17 @@ int main()
 
 }
 */
+
+// for date exercise
+/*
+#include "Date.h"
+
+int main ()
+{
+	Date date1(2000, 10, 1);
+	date1.Display();
+	Date date2 = date1 + 391;
+	date2.Display();
+	std::cout << "date2 > date1? " << (date2 > date1) << std::endl;
+}
+*/

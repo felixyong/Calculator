@@ -24,10 +24,10 @@ Store::Store(int size, SymbolTable & symTab)
 	// Note: if more needed, do a more general job
 	std::cout << "e = " << exp(1) << std::endl;
 	int id = symTab.ForceAdd("e", 1);
-	SetValue(id, std::exp(1));
+	SetValue(id, exp(1));
 	std::cout << "pi = " << 2 * acos (0.0) << std::endl;
 	id = symTab.ForceAdd("pi", 2);
-	SetValue(id, 2.0 * std::acos(0.0));
+	SetValue(id, 2.0 * acos(0.0));
 }
 
 
