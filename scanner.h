@@ -32,13 +32,13 @@ class Scanner
 public:
 	Scanner(char const * buf);
 	EToken Token() const {return _token;}
-	void Accept();
+	EToken Accept();
 	double Number()
 	{
 		assert(_token == tNumber);
 		return _number;
 	}
-	void GetSymbolName(char * strOut, int & len);
+	void SymbolName(char * strOut, int & len);
 private:
 	char const * const _buf;
 	void EatWhite();

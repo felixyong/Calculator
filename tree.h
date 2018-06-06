@@ -8,13 +8,20 @@
 #ifndef TREE_H_
 #define TREE_H_
 
-#include <iostream>
+#include <cassert>
+#include "funTab.h"
+class Store;
 
 class Node
 {
 public:
 	virtual ~Node () {}
 	virtual double Calc () const = 0;
+	virtual bool IsLvalue () const {return false;}
+	virtual void Assign (double)
+	{
+		assert (!"Assign called incorrectly");
+	}
 };
 
 class NumNode: public Node
@@ -25,11 +32,29 @@ public:
 private:
 	const double _num;
 };
-double NumNode::Calc () const
+
+class VarNode: public Node
 {
-	std::cout << "Numeric node " << _num << std::endl;
-	return _num;
-}
+public:
+	VarNode (int id, Store & store)
+		: _id(id), _store(store) {}
+	double Calc() const;
+	bool IsLvalue () const;
+	void Assign (double val);
+private:
+	const int _id;
+	Store & _store;
+};
+
+class UniNode: public Node
+{
+public:
+	UniNode (Node * pChild)
+	: _pChild (pChild) {}
+	~UniNode ();
+protected:
+	Node * const _pChild;
+};
 
 class BinNode: public Node
 {
@@ -41,11 +66,6 @@ protected:
 	Node * const _pLeft;
 	Node * const _pRight;
 };
-BinNode::~BinNode()
-{
-	delete _pLeft;
-	delete _pRight;
-}
 
 class AddNode: public BinNode
 {
@@ -55,11 +75,13 @@ public:
 	double Calc() const;
 };
 
-double AddNode::Calc() const
+class SubNode: public BinNode
 {
-	std::cout << "Adding\n";
-	return _pLeft->Calc() + _pRight->Calc();
-}
+public:
+	SubNode(Node * pLeft, Node * pRight)
+		: BinNode(pLeft, pRight) {}
+	double Calc() const;
+};
 
 class MultNode: public BinNode
 {
@@ -68,10 +90,43 @@ public:
 		: BinNode(pLeft, pRight) {}
 	double Calc () const;
 };
-double MultNode::Calc() const
+
+class DivideNode: public BinNode
 {
-	std::cout << "Multiplying\n";
-	return _pLeft->Calc() * _pRight->Calc();
-}
+public:
+	DivideNode(Node * pLeft, Node * pRight)
+		: BinNode(pLeft, pRight) {}
+	double Calc () const;
+};
+
+class AssignNode: public BinNode
+{
+public:
+	AssignNode(Node * pLeft, Node * pRight)
+		: BinNode(pLeft, pRight)
+	{
+		assert(pLeft->IsLvalue());
+	}
+	double Calc () const;
+};
+
+class FunNode: public UniNode
+{
+public:
+	FunNode(PtrFun pFun, Node * pNode)
+		: UniNode(pNode), _pFun(pFun)
+	{}
+	double Calc () const;
+private:
+	PtrFun _pFun;
+};
+
+class UMinusNode: public UniNode
+{
+public:
+	UMinusNode (Node * pNode)
+		: UniNode(pNode) {}
+	double Calc () const;
+};
 
 #endif /* TREE_H_ */

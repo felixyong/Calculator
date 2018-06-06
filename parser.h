@@ -8,7 +8,10 @@
 #ifndef PARSER_H_
 #define PARSER_H_
 
+class Node;
 class Scanner;
+class Store;
+class FunctionTable;
 class SymbolTable;
 
 enum Status
@@ -21,12 +24,23 @@ enum Status
 class Parser
 {
 public:
-	Parser(Scanner & scanner, SymbolTable & symTab);
+	Parser(Scanner & scanner,
+			Store & store,
+			FunctionTable & funTab,
+			SymbolTable & symTab);
 	~Parser();
 	Status Eval();
-	Status Parse();
 private:
+	void Parse ();
+	Node * Expr ();
+	Node * Term ();
+	Node * Factor ();
+	void Execute ();
 	Scanner & _scanner;
+	Node * _pTree;
+	Status _status;
+	Store & _store;
+	FunctionTable & _funTab;
 	SymbolTable & _symTab;
 };
 

@@ -26,7 +26,7 @@ void Scanner::EatWhite()
 		++_iLook;
 }
 
-void Scanner::Accept()
+EToken Scanner::Accept()
 {
 	EatWhite();
 	switch(_buf[_iLook])
@@ -45,6 +45,10 @@ void Scanner::Accept()
 		break;
 	case '/':
 		_token = tDivide;
+		++_iLook;
+		break;
+	case '=':
+		_token = tAssign;
 		++_iLook;
 		break;
 	case '(':
@@ -94,10 +98,11 @@ void Scanner::Accept()
 			_token = tError;
 		break;
 	}
+	return Token();
 
 }
 
-void Scanner::GetSymbolName(char * strOut, int & len)
+void Scanner::SymbolName(char * strOut, int & len)
 {
 	assert(len >= maxSymLen);
 	assert(_lenSymbol <= maxSymLen);
